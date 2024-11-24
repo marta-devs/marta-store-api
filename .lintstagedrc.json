@@ -1,0 +1,5 @@
+{
+  "*.{js,ts}": [
+    "npx biome lint --fix"
+  ]
+}
