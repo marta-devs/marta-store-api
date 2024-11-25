@@ -1,5 +1,14 @@
+/*
+  Warnings:
+
+  - You are about to drop the `model` table. If the table is not empty, all the data it contains will be lost.
+
+*/
+-- DropTable
+DROP TABLE `model`;
+
 -- CreateTable
-CREATE TABLE `Model` (
+CREATE TABLE `tb_model` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,

@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Model {
+model tb_model {
   id          String   @id @default(uuid())
   name        String
   description String

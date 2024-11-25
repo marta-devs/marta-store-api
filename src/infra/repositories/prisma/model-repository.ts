@@ -14,7 +14,7 @@ export class ModelRepository
 			},
 		});
 	}
-	async findByName(name: string): Promise<Model> {
+	async findByName(name: string): Promise<Model | null> {
 		const response = await prisma.tb_model.findFirst({
 			where: {
 				name,
