@@ -3,7 +3,7 @@
     "baseUrl": "src",
     "rootDir": "src",
     "target": "es2018",
-    "module": "commonjs",
+    "module": "ES2022",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
