@@ -23,6 +23,7 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.9.3",
     "@vitest/coverage-v8": "^2.1.5",
+    "git-commit-msg-linter": "^5.0.8",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
     "prisma": "^5.22.0",
