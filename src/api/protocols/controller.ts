@@ -1,6 +1,6 @@
 export type HttpRequest = {
 	body?: any;
-	param?: any;
+	params?: any;
 	query?: any;
 };
 

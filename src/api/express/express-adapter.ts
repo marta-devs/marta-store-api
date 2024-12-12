@@ -17,17 +17,14 @@ export default class ExpressAdapter implements HttpServer {
 		this.app[method](url, async (req: Request, res: Response) => {
 			const httpRequest = {
 				body: req.body,
+        params: req.params,
+        query: req.query,
 			};
-			console.log(req.body);
 			const response = await new ControllerErrorMiddleware(controller).handle(
-				req,
+				httpRequest
 			);
 
-			if (response.status === 200 || response.status === 201) {
-				res.status(response.status);
-			} else {
-				res.status(response.status).json(response.body);
-			}
+			res.status(response.status).json(response.body);
 		});
 	}
 
