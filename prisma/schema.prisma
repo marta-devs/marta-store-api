@@ -7,10 +7,105 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model tb_model {
-  id          String   @id @default(uuid())
+model models {
+  id          String     @id @default(uuid())
   name        String
-  description String
-  createAt    DateTime @default(now())
-  updateAt    DateTime @updatedAt
+  description String?
+  createAt    DateTime   @default(now())
+  updateAt    DateTime   @updatedAt
+  products    products[]
+}
+
+model categories {
+  id          String     @id @default(uuid())
+  name        String
+  description String?
+  createAt    DateTime   @default(now())
+  updateAt    DateTime   @updatedAt
+  products    products[]
+}
+
+model brands {
+  id          String     @id @default(uuid())
+  name        String
+  description String?
+  createAt    DateTime   @default(now())
+  updateAt    DateTime   @updatedAt
+  products    products[]
+}
+
+model fees {
+  id        String     @id @default(uuid())
+  name      String
+  percent   Int
+  value_tax Float
+  status    String
+  createAt  DateTime   @default(now())
+  updateAt  DateTime   @updatedAt
+  products  products[]
+}
+
+model laws {
+  id       String     @id @default(uuid())
+  law      String
+  article  String
+  content  String
+  status   String
+  createAt DateTime   @default(now())
+  updateAt DateTime   @updatedAt
+  products products[]
+}
+
+model products {
+  id             String   @id @default(uuid())
+  name           String
+  unitType       String?
+  description    String?
+  barCode        String   @unique
+  reason         String
+  salePrice      Float?
+  finalPrice     Float?
+  profitMargin   Float?
+  fixedProfit    Float?
+  purchase_price Float?
+  isExpiration   Boolean  @default(false)
+  status         String
+  brandsId       String?
+  categoriesId   String?
+  modelsId       String?
+  feesId         String?
+  lawsId         String?
+  createAt       DateTime @default(now())
+  updateAt       DateTime @updatedAt
+
+  brand    brands?     @relation(fields: [brandsId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  category categories? @relation(fields: [categoriesId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  model    models?     @relation(fields: [modelsId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  fees     fees?       @relation(fields: [feesId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  laws     laws?       @relation(fields: [lawsId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  imagens imagens[]
+  stocks  stocks[]
+}
+
+model imagens {
+  id         String   @id @default(uuid())
+  image      String
+  productsId String
+  product    products @relation(fields: [productsId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+}
+
+model stocks {
+  id              String    @id @default(uuid())
+  minStock        Int
+  maxStock        Int
+  IsControlStock  Boolean   @default(false)
+  stockType       String?
+  amount          Int
+  expiration_date DateTime?
+  createAt        DateTime  @default(now())
+  updateAt        DateTime  @updatedAt
+
+  product    products @relation(fields: [productsId], references: [id])
+  productsId String
 }
