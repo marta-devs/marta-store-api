@@ -69,7 +69,7 @@ describe('AddModelService', () => {
 			description,
 		});
 
-		expect(response).rejects.toThrowError('Model alright exists!');
+		await expect(response).rejects.toThrowError('Model alright exists!');
 	});
 
 	test('should call AddModelRepository with correct params', async () => {
@@ -112,6 +112,6 @@ describe('AddModelService', () => {
 			description,
 		});
 
-		expect(response).rejects.toThrowError('Internal Server Error');
+		await expect(response).rejects.toThrowError('Internal Server Error');
 	});
 });
