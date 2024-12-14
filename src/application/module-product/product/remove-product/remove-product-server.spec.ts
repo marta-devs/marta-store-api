@@ -91,4 +91,12 @@ describe('RemoveProductService', () => {
 		const response = sut.execute('any_id');
 		await expect(response).rejects.toThrow();
 	});
+
+	test('should call FindProductByIdAndStatusRepository with correct id', async () => {
+		const productId = 'any_id';
+		const { sut, removeProductRepositoryStub } = makeSut();
+		const removeSpy = vi.spyOn(removeProductRepositoryStub, 'remove');
+		await sut.execute(productId);
+		expect(removeSpy).toHaveBeenCalledWith(productId, ProductStatus.REMOVED);
+	});
 });
