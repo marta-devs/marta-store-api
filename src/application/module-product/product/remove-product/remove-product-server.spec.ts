@@ -81,4 +81,14 @@ describe('RemoveProductService', () => {
 		const response = sut.execute('any_id');
 		await expect(response).rejects.toThrow('Product is not exists!');
 	});
+
+	test('should throw if FindProductByIdAndStatusRepository throw error', async () => {
+		const { sut, findProductByIdAndStatusRepositoryStub } = makeSut();
+		vi.spyOn(
+			findProductByIdAndStatusRepositoryStub,
+			'loadByIdAndStatusRemoved',
+		).mockRejectedValueOnce(new Error());
+		const response = sut.execute('any_id');
+		await expect(response).rejects.toThrow();
+	});
 });
