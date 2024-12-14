@@ -26,7 +26,10 @@
 			"style": {
 				"useImportType": "off",
 				"useNumberNamespace": "off"
-			}
+			},
+      "complexity":{
+        "noStaticOnlyClass": "off"
+      }
 		}
 	},
 	"javascript": {

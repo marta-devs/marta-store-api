@@ -61,8 +61,8 @@ model products {
   name           String
   unitType       String?
   description    String?
-  barCode        String   @unique
-  reason         String
+  barCode        String?
+  reason         String?
   salePrice      Float?
   finalPrice     Float?
   profitMargin   Float?
