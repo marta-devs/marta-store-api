@@ -22,4 +22,13 @@ describe('RemoveProductService', () => {
 		await sut.execute(productId);
 		expect(removeSpy).toHaveBeenCalledWith(productId, status);
 	});
+
+  test('should throw if RemoveProductRepository throws', async () => {
+		const productId = 'any_id';
+		const removeProductRepositoryStub = makeRemoveProductRepositoryStub();
+		const sut = new RemoveProductService(removeProductRepositoryStub);
+		vi.spyOn(removeProductRepositoryStub, 'remove').mockRejectedValueOnce(new Error())
+		const response = sut.execute(productId);
+		expect(response).rejects.toThrowError();
+	});
 });
