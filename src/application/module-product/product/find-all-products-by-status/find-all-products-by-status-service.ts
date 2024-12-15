@@ -12,12 +12,13 @@ export class FindAllProductsByStatusService {
 
 	async execute(
 		params: FindAllProductsByStatusRequest,
-	): Promise<FindAllProductsByStatusResponse | null> {
-		await this.findAllProductsByStatusRepository.loadAllAndResultByStatus(
-			params.status,
-			params.page,
-			params.limit,
-		);
-		return Promise.resolve(null);
+	): Promise<FindAllProductsByStatusResponse> {
+		const response =
+			await this.findAllProductsByStatusRepository.loadAllAndResultByStatus(
+				params.status,
+				params.page,
+				params.limit,
+			);
+		return response;
 	}
 }
