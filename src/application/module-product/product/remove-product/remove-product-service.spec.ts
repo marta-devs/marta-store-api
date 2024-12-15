@@ -107,9 +107,9 @@ describe('RemoveProductService', () => {
 
 	test('should call FindProductByIdRepository with correct id', async () => {
 		const productId = 'any_id';
-		const { sut, removeProductRepositoryStub } = makeSut();
-		const removeSpy = vi.spyOn(removeProductRepositoryStub, 'remove');
+		const { sut, findProductByIdRepositoryStub } = makeSut();
+		const loadSpy = vi.spyOn(findProductByIdRepositoryStub, 'loadById');
 		await sut.execute(productId);
-		expect(removeSpy).toHaveBeenCalledWith(productId, ProductStatus.REMOVED);
+		expect(loadSpy).toHaveBeenCalledWith(productId);
 	});
 });
