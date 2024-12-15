@@ -2,6 +2,7 @@ import { addModelController } from 'application/module-product/model/add-model/a
 import { HttpServer, MethodEnum } from './protocols/http-server';
 import { removeProductController } from 'application/module-product/product/remove-product/remove-product-module';
 import { findProductByIdController } from 'application/module-product/product/find-product-by-id/find-product-by-id-module';
+import { findAllProductByStatusController } from 'application/module-product/product/find-all-products-by-status/find-all-products-by-status-module';
 
 export default class Router {
 	constructor(private readonly httpServer: HttpServer) {}
@@ -17,6 +18,12 @@ export default class Router {
 			MethodEnum.GET,
 			'/products/:id',
 			findProductByIdController,
+		);
+
+		this.httpServer.route(
+			MethodEnum.GET,
+			'/products',
+			findAllProductByStatusController,
 		);
 	}
 }

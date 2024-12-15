@@ -36,10 +36,7 @@ export class Product {
 	readonly status: ProductStatus;
 
 	constructor(private readonly params: ProductParam) {
-		this.id = params.id || '';
-		this.name = params.name || '';
-		this.isExpiration = params.isExpiration;
-		this.status = params.status;
+		Object.assign(this, { ...params });
 	}
 
 	public isStatusRemoved(): boolean {
