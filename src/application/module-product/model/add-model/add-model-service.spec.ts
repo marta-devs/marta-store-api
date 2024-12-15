@@ -2,7 +2,7 @@ import { describe, test, expect, vi } from 'vitest';
 import { AddModelService } from './add-model-service';
 import { FindModelByNameRepository } from 'infra/protocols/find-model-by-name-repository';
 import { Model } from 'domain/model';
-import { AddModelRepository } from 'infra/protocols/add-model-repository';
+import { AddModelRepository } from 'infra/protocols/models/add-model-repository';
 
 const makeFindModelByNameRepositoryStub = (): FindModelByNameRepository => {
 	class FindModelByNameRepositoryStub implements FindModelByNameRepository {

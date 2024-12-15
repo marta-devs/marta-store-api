@@ -1,5 +1,5 @@
 import { Product } from 'domain/product';
-import { FindProductByIdRepository } from 'infra/protocols/find-product-by-id-repository';
+import { FindProductByIdRepository } from 'infra/protocols/products/find-product-by-id-repository';
 import { ConflictError } from 'utils/errors/conflict-error';
 import { NotFoundError } from 'utils/errors/not-found-error';
 

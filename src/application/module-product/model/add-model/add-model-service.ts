@@ -1,4 +1,4 @@
-import { AddModelRepository } from 'infra/protocols/add-model-repository';
+import { AddModelRepository } from 'infra/protocols/models/add-model-repository';
 import { AddModelRequest, AddModelResponse } from './add-model-DTO';
 import { FindModelByNameRepository } from 'infra/protocols/find-model-by-name-repository';
 import { ConflictError } from 'utils/errors/conflict-error';

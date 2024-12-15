@@ -1,6 +1,6 @@
 import { ProductStatus, Product } from 'domain/product';
-import { FindProductByIdRepository } from 'infra/protocols/find-product-by-id-repository';
-import { RemoveProductRepository } from 'infra/protocols/remove-product-repository';
+import { FindProductByIdRepository } from 'infra/protocols/products/find-product-by-id-repository';
+import { RemoveProductRepository } from 'infra/protocols/products/remove-product-repository';
 import { prisma } from './config/prisma-client';
 import { PrismaProductMapper } from './mappers/prisma-product-mapper';
 

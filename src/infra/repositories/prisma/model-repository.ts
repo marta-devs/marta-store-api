@@ -1,6 +1,6 @@
 import { FindModelByNameRepository } from './../../protocols/find-model-by-name-repository';
 import { Model } from 'domain/model';
-import { AddModelRepository } from './../../protocols/add-model-repository';
+import { AddModelRepository } from '../../protocols/models/add-model-repository';
 import { prisma } from './config/prisma-client';
 
 export class ModelRepository

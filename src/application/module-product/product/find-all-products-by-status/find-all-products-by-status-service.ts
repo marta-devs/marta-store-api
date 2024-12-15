@@ -1,5 +1,5 @@
 import { Product } from 'domain/product';
-import { FindAllProductsByStatusRepository } from 'infra/protocols/find-all-products-by-status-repository';
+import { FindAllProductsByStatusRepository } from 'infra/protocols/products/find-all-products-by-status-repository';
 import {
 	FindAllProductsByStatusRequest,
 	FindAllProductsByStatusResponse,

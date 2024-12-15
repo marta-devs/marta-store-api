@@ -1,6 +1,6 @@
 import { expect, vi, test, describe } from 'vitest';
 import { FindProductByIdService } from './find-product-by-id-service';
-import { FindProductByIdRepository } from 'infra/protocols/find-product-by-id-repository';
+import { FindProductByIdRepository } from 'infra/protocols/products/find-product-by-id-repository';
 import { Product, ProductStatus } from 'domain/product';
 
 interface SutType {

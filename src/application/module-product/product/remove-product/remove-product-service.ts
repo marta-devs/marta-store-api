@@ -1,6 +1,6 @@
 import { ProductStatus } from 'domain/product';
-import { FindProductByIdRepository } from 'infra/protocols/find-product-by-id-repository';
-import { RemoveProductRepository } from 'infra/protocols/remove-product-repository';
+import { FindProductByIdRepository } from 'infra/protocols/products/find-product-by-id-repository';
+import { RemoveProductRepository } from 'infra/protocols/products/remove-product-repository';
 import { ConflictError } from 'utils/errors/conflict-error';
 import { NotFoundError } from 'utils/errors/not-found-error';
 

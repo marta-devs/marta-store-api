@@ -1,8 +1,8 @@
-import { RemoveProductRepository } from 'infra/protocols/remove-product-repository';
+import { RemoveProductRepository } from 'infra/protocols/products/remove-product-repository';
 import { expect, test, vi, describe } from 'vitest';
 import { RemoveProductService } from './remove-product-service';
 import { Product, ProductStatus } from 'domain/product';
-import { FindProductByIdRepository } from 'infra/protocols/find-product-by-id-repository';
+import { FindProductByIdRepository } from 'infra/protocols/products/find-product-by-id-repository';
 
 interface SutType {
 	sut: RemoveProductService;

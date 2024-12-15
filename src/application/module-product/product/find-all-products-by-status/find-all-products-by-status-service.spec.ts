@@ -4,7 +4,7 @@ import { FindAllProductsByStatusService } from './find-all-products-by-status-se
 import {
 	FindAllProductsByStatusRepository,
 	FindAllProductsByStatusRepositoryResponse,
-} from 'infra/protocols/find-all-products-by-status-repository';
+} from 'infra/protocols/products/find-all-products-by-status-repository';
 
 interface SutType {
 	sut: FindAllProductsByStatusService;
@@ -83,7 +83,7 @@ describe('FindAllProductsByStatusService', () => {
 			page: 10,
 			status: ProductStatus.ACTIVE,
 		});
-		expect(response).rejects.toThrowError();
+		await expect(response).rejects.toThrowError();
 	});
 
 	test('should return products and result if FindAllProductsAndResultByStatusRepository on success', async () => {
