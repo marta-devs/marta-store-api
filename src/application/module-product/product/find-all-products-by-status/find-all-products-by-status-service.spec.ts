@@ -1,0 +1,74 @@
+import { Product, ProductStatus } from 'domain/product';
+import { expect, vi, test, describe } from 'vitest';
+import { FindAllProductsByStatusService } from './find-all-products-by-status-service';
+import {
+	FindAllProductsByStatusRepository,
+	FindAllProductsByStatusRepositoryResponse,
+} from 'infra/protocols/find-all-products-by-status-repository';
+
+interface SutType {
+	sut: FindAllProductsByStatusService;
+	findAllProductsByStatusRepositoryStub: FindAllProductsByStatusRepository;
+}
+
+const fakeProduct = (status: ProductStatus = ProductStatus.ACTIVE): Product => {
+	return new Product({
+		id: 'any_id',
+		name: 'any_name',
+		isExpiration: false,
+		status: status,
+	});
+};
+
+const makeFindAllProductsAndResultByStatusRepositoryStub =
+	(): FindAllProductsByStatusRepository => {
+		class FindAllProductsByStatusRepositoryStub
+			implements FindAllProductsByStatusRepository
+		{
+			async loadAllAndResultByStatus(
+				status: string,
+				page: number,
+				limit: number,
+			): Promise<FindAllProductsByStatusRepositoryResponse> {
+				return Promise.resolve({
+					products: [fakeProduct()],
+					result: 1,
+				});
+			}
+		}
+		return new FindAllProductsByStatusRepositoryStub();
+	};
+
+const makeSut = (): SutType => {
+	const findAllProductsByStatusRepositoryStub =
+		makeFindAllProductsAndResultByStatusRepositoryStub();
+	const sut = new FindAllProductsByStatusService(
+		findAllProductsByStatusRepositoryStub,
+	);
+
+	return {
+		sut,
+		findAllProductsByStatusRepositoryStub,
+	};
+};
+
+describe('FindAllProductsByStatusService', () => {
+	test('should call FindAllProductsAndResultByStatusRepository with correct params', async () => {
+		const fakeRequest = {
+			limit: 30,
+			page: 10,
+			status: ProductStatus.ACTIVE,
+		};
+		const { sut, findAllProductsByStatusRepositoryStub } = makeSut();
+		const loadAllAndResultByStatusSpy = vi.spyOn(
+			findAllProductsByStatusRepositoryStub,
+			'loadAllAndResultByStatus',
+		);
+		await sut.execute(fakeRequest);
+		expect(loadAllAndResultByStatusSpy).toHaveBeenCalledWith(
+			fakeRequest.status,
+			fakeRequest.page,
+			fakeRequest.limit,
+		);
+	});
+});
