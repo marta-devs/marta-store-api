@@ -5,7 +5,7 @@ import cors from 'cors';
 import { ControllerErrorMiddleware } from 'api/middlewares/controller-error-middleware';
 
 export default class ExpressAdapter implements HttpServer {
-	app: any;
+	private readonly app: any;
 
 	constructor() {
 		this.app = express();
@@ -17,11 +17,11 @@ export default class ExpressAdapter implements HttpServer {
 		this.app[method](url, async (req: Request, res: Response) => {
 			const httpRequest = {
 				body: req.body,
-        params: req.params,
-        query: req.query,
+				params: req.params,
+				query: req.query,
 			};
 			const response = await new ControllerErrorMiddleware(controller).handle(
-				httpRequest
+				httpRequest,
 			);
 
 			res.status(response.status).json(response.body);
@@ -32,5 +32,9 @@ export default class ExpressAdapter implements HttpServer {
 		this.app.listen(port, () => {
 			console.log(`Server is running on port ${port}`);
 		});
+	}
+
+	getApp() {
+		return this.app;
 	}
 }

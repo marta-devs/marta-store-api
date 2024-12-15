@@ -9,7 +9,7 @@ export class ControllerErrorMiddleware implements Controller {
 
 	async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
 		try {
-		  return await this.controller.handle(httpRequest);
+			return await this.controller.handle(httpRequest);
 		} catch (error: any) {
 			return {
 				status: error.statusCode || 500,
