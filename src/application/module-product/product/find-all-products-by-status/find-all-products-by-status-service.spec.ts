@@ -71,4 +71,18 @@ describe('FindAllProductsByStatusService', () => {
 			fakeRequest.limit,
 		);
 	});
+
+	test('should throw if FindAllProductsAndResultByStatusRepository throws', async () => {
+		const { sut, findAllProductsByStatusRepositoryStub } = makeSut();
+		vi.spyOn(
+			findAllProductsByStatusRepositoryStub,
+			'loadAllAndResultByStatus',
+		).mockRejectedValueOnce(new Error());
+		const response = sut.execute({
+			limit: 30,
+			page: 10,
+			status: ProductStatus.ACTIVE,
+		});
+		expect(response).rejects.toThrowError();
+	});
 });
