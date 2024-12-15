@@ -11,6 +11,9 @@ export class ControllerErrorMiddleware implements Controller {
 		try {
 			return await this.controller.handle(httpRequest);
 		} catch (error: any) {
+			if (process.env.NODE_ENV === 'development') {
+				console.log(error.stack);
+			}
 			return {
 				status: error.statusCode || 500,
 				body: {

@@ -16,7 +16,7 @@ export class RemoveProductController implements Controller {
 	async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
 		const { id } = httpRequest.params;
 		const messageError = this.validator.validate({ id });
-		console.log(messageError);
+
 		if (messageError) {
 			throw new BadRequestError(messageError);
 		}

@@ -59,8 +59,8 @@ model laws {
 model products {
   id             String   @id @default(uuid())
   name           String
-  unitType       String?
   description    String?
+  unitType       String?
   barCode        String?
   reason         String?
   salePrice      Float?

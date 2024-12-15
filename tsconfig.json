@@ -2,7 +2,7 @@
   "compilerOptions": {
     "strictPropertyInitialization": false,
     "baseUrl": "src",
-    "rootDir": "src",
+    "rootDirs": ["src", "tests"],
     "target": "ES2022",
     "module": "commonjs",
     "esModuleInterop": true,
@@ -12,5 +12,6 @@
   },
   "include": [
     "src/**/*.ts",
+    "tests"
   ]
 }
