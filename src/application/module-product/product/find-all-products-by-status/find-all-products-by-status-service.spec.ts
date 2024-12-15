@@ -85,4 +85,14 @@ describe('FindAllProductsByStatusService', () => {
 		});
 		expect(response).rejects.toThrowError();
 	});
+
+	test('should return products and result if FindAllProductsAndResultByStatusRepository on success', async () => {
+		const { sut } = makeSut();
+		const response = await sut.execute({
+			limit: 30,
+			page: 10,
+			status: ProductStatus.ACTIVE,
+		});
+		expect(response).toEqual({ products: [fakeProduct()], result: 1 });
+	});
 });
