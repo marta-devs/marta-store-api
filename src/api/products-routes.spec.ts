@@ -32,10 +32,20 @@ describe('DELETE /products/:id', () => {
 });
 
 describe('GET /products/:id', () => {
-	test('should return 204 on success', async () => {
+	test('should return 200 on success', async () => {
 		const product = await createFakeProduct();
 		const response = await request(httpServer.getApp()).get(
 			`/products/${product.id}`,
+		);
+		expect(response.status).toBe(200);
+	});
+});
+
+describe('GET /products', () => {
+	test('should return 200 on success', async () => {
+		await createFakeProduct();
+		const response = await request(httpServer.getApp()).get(
+			`/products?status=${ProductStatus.ACTIVE}&page=1&limit=3`,
 		);
 		expect(response.status).toBe(200);
 	});
