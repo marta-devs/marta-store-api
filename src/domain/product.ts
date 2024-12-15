@@ -11,13 +11,13 @@ export type ProductParam = {
 	fixedProfit?: number;
 	purchase_price?: number;
 	isExpiration: boolean;
-	status?: ProductStatus;
+	status: ProductStatus;
 };
 
 export enum ProductStatus {
 	REMOVED = 'REMOVIDO',
-  ACTIVE = 'ATIVADO',
-  PENDING = 'PENDENTE'
+	ACTIVE = 'ATIVADO',
+	PENDING = 'PENDENTE',
 }
 
 export class Product {
@@ -36,6 +36,13 @@ export class Product {
 	readonly status: ProductStatus;
 
 	constructor(private readonly params: ProductParam) {
-		Object.assign(this, { ...params });
+		this.id = params.id || '';
+		this.name = params.name || '';
+		this.isExpiration = params.isExpiration;
+		this.status = params.status;
+	}
+
+	public isStatusRemoved(): boolean {
+		return this.status === ProductStatus.REMOVED;
 	}
 }

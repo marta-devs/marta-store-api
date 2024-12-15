@@ -2,47 +2,53 @@ import { RemoveProductRepository } from 'infra/protocols/remove-product-reposito
 import { expect, test, vi, describe } from 'vitest';
 import { RemoveProductService } from './remove-product-service';
 import { Product, ProductStatus } from 'domain/product';
-import { FindProductByIdAndStatusRepository } from 'infra/protocols/find-product-by-id-and-status-remove-repository';
+import { FindProductByIdRepository } from 'infra/protocols/find-product-by-id-repository';
 
 interface SutType {
 	sut: RemoveProductService;
 	removeProductRepositoryStub: RemoveProductRepository;
-	findProductByIdAndStatusRepositoryStub: FindProductByIdAndStatusRepository;
+	findProductByIdRepositoryStub: FindProductByIdRepository;
 }
 
 const makeSut = (): SutType => {
 	const removeProductRepositoryStub = makeRemoveProductRepositoryStub();
-	const findProductByIdAndStatusRepositoryStub =
-		makeFindProductByIdAndStatusRepositoryStub();
+	const findProductByIdRepositoryStub = makeFindProductByIdRepositoryStub();
 	const sut = new RemoveProductService(
 		removeProductRepositoryStub,
-		findProductByIdAndStatusRepositoryStub,
+		findProductByIdRepositoryStub,
 	);
 
 	return {
 		sut,
 		removeProductRepositoryStub,
-		findProductByIdAndStatusRepositoryStub,
+		findProductByIdRepositoryStub,
 	};
 };
 
-const makeFindProductByIdAndStatusRepositoryStub =
-	(): FindProductByIdAndStatusRepository => {
-		class FindProductByIdAndStatusRepositoryStub
-			implements FindProductByIdAndStatusRepository
-		{
-			async loadByIdAndStatusRemoved(): Promise<Product> {
-				return Promise.resolve(
-					new Product({
-						id: 'any_id',
-						name: 'any_name',
-						isExpiration: false,
-					}),
-				);
-			}
+const fakeProduct = (status: ProductStatus = ProductStatus.ACTIVE): Product => {
+	return new Product({
+		id: 'any_id',
+		name: 'any_name',
+		isExpiration: false,
+		status: status,
+	});
+};
+
+const makeFindProductByIdRepositoryStub = (): FindProductByIdRepository => {
+	class FindProductByIdRepositoryStub implements FindProductByIdRepository {
+		async loadById(id: string): Promise<Product> {
+			return Promise.resolve(
+				new Product({
+					id: 'any_id',
+					name: 'any_name',
+					isExpiration: false,
+					status: ProductStatus.ACTIVE,
+				}),
+			);
 		}
-		return new FindProductByIdAndStatusRepositoryStub();
-	};
+	}
+	return new FindProductByIdRepositoryStub();
+};
 
 const makeRemoveProductRepositoryStub = (): RemoveProductRepository => {
 	class RemoveProductRepositoryStub implements RemoveProductRepository {
@@ -72,27 +78,34 @@ describe('RemoveProductService', () => {
 		await expect(response).rejects.toThrowError();
 	});
 
-	test('should throw if FindProductByIdAndStatusRepository return null', async () => {
-		const { sut, findProductByIdAndStatusRepositoryStub } = makeSut();
-		vi.spyOn(
-			findProductByIdAndStatusRepositoryStub,
-			'loadByIdAndStatusRemoved',
-		).mockResolvedValueOnce(null);
+	test('should throw if FindProductByIdRepository return null', async () => {
+		const { sut, findProductByIdRepositoryStub } = makeSut();
+		vi.spyOn(findProductByIdRepositoryStub, 'loadById').mockResolvedValueOnce(
+			null,
+		);
 		const response = sut.execute('any_id');
 		await expect(response).rejects.toThrow('Product is not exists!');
 	});
 
-	test('should throw if FindProductByIdAndStatusRepository throw error', async () => {
-		const { sut, findProductByIdAndStatusRepositoryStub } = makeSut();
-		vi.spyOn(
-			findProductByIdAndStatusRepositoryStub,
-			'loadByIdAndStatusRemoved',
-		).mockRejectedValueOnce(new Error());
+	test('should throw if FindProductByIdRepository return status REMOVED', async () => {
+		const { sut, findProductByIdRepositoryStub } = makeSut();
+		vi.spyOn(findProductByIdRepositoryStub, 'loadById').mockResolvedValueOnce(
+			fakeProduct(ProductStatus.REMOVED),
+		);
 		const response = sut.execute('any_id');
 		await expect(response).rejects.toThrow();
 	});
 
-	test('should call FindProductByIdAndStatusRepository with correct id', async () => {
+	test('should throw if FindProductByIdRepository throw error', async () => {
+		const { sut, findProductByIdRepositoryStub } = makeSut();
+		vi.spyOn(findProductByIdRepositoryStub, 'loadById').mockRejectedValueOnce(
+			new Error(),
+		);
+		const response = sut.execute('any_id');
+		await expect(response).rejects.toThrow();
+	});
+
+	test('should call FindProductByIdRepository with correct id', async () => {
 		const productId = 'any_id';
 		const { sut, removeProductRepositoryStub } = makeSut();
 		const removeSpy = vi.spyOn(removeProductRepositoryStub, 'remove');
