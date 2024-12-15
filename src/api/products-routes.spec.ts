@@ -30,3 +30,13 @@ describe('DELETE /products/:id', () => {
 		expect(response.status).toBe(204);
 	});
 });
+
+describe('GET /products/:id', () => {
+	test('should return 204 on success', async () => {
+		const product = await createFakeProduct();
+		const response = await request(httpServer.getApp()).get(
+			`/products/${product.id}`,
+		);
+		expect(response.status).toBe(200);
+	});
+});
